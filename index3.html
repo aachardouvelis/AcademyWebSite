@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+
+        .red{
+            position:absolute;
+            height:50px;
+            width:50px;
+            background-color:red;
+        }
+
+    </style>
+</head>
+<body>
+    <form>
+        <input id="foo" type="date" name="thedate" value="" />
+        <input id="submit"type="submit" name="submission" value="" />
+    </form>
+    <!-- The Modal -->
+    
+    
+    <script>
+        var obj1 = {
+            name: "Alex",
+            age: 27
+        }
+        var obj2 = {
+            name: "Alex",
+            age: 27
+        }
+        var obj3 = {
+            name: "George",
+            age: 22
+        }
+        var ar = [["George", 22], ["Alex", 27], ["John", 52]];
+
+        var subar = ["Alex", 27];
+        var subar2 = ["Jsd", 27];
+
+        console.log("Contains(ar,alex)" + Contains(ar, subar));
+        console.log("Contains(ar,jsd)" + Contains(ar, subar2));
+
+
+        function checkforin() {
+            var ar = [2, 4, 2, 3];
+            var obj = { alex: 2, joghn: 3 };
+            for (var iter in ar) {
+                console.log(ar[iter]);
+            }
+            for (var index in obj)
+                console.log(obj[index]);
+        }
+
+        function AddCourseToDom(course) {
+            let row = `<tr><td>${course[0]}</td><td>${course[1]}</td><td>${course[2]}</td><td>${course[3]}</td><td>${course[4]}</td><td>` +
+                '<div class="edit"><button type="button" class="btn"'
+                + 'data-toggle="modal" data-target="#addCourse" > <img src="../images/edit.png" /> </button > '
+                + '</div><div class="delete"><button type="button" class="btn" data-toggle="modal"'
+                + 'data-target="#deleteCourse" > <img src="../images/delete.png" /></button ></div></td></tr>';
+            $("#courses-table-body").append(row);
+        }
+
+        function Contains(arr, subarr) { // checks if Array ar contains obj
+            for (var iterObj of arr)
+                if (Equals(iterObj, subarr))
+                    return true;
+            return false;
+        }
+        function Equals(arr1, arr2) {
+            if (arr1.length != arr2.length)
+                return false;
+            for (var i = 0; i < arr1.length; i++) {
+                if (arr1[i] != arr2[i])
+                    return false;
+            }
+            return true;
+        }
+        
+    </script>
+</body>
+</html>

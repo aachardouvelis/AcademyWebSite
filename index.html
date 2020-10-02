@@ -1,0 +1,2296 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="Scripts/jquery-3.5.1.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        button,body, p, div, ul, li, nav, header, footer, main, img, i {
+            margin: 0px;
+            padding: 0px;
+            border-width:0px;
+        }
+        ul{
+            list-style:none;
+        }
+        #main-content{
+            margin:100px;
+        }
+        .container-fluid table td img {
+            max-height: 20px;
+        }
+            
+        .edit,.delete{
+            display:inline-block;
+        }
+        
+       
+        .table-header > button{
+            float:right;
+        }
+        .table-header  img {
+            max-width: 50px;
+            max-height: 50px;
+        }
+        .table-header > #create-course-button > img,h1{
+            display:inline-block;
+        }
+
+        table th{
+            background-color:#676666;
+            color:black;
+        }
+        table>tbody> tr .add-action,.del-action{
+            display:inline-block;
+        }
+        table .del-action img {
+            max-width: 50px;
+            max-height: 50px;
+        }
+        table .add-action > button > img {
+            max-width: 30px;
+            max-height: 30px;
+        }
+        .alert {
+            position: relative;
+            padding: 0.55rem 1.00rem;
+        }
+        .custom-btn {
+            display: inline-block;
+            font-weight: 400;
+            color: #212529;
+            text-align: center;
+            vertical-align: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-color: transparent;
+            border: 1px solid transparent;
+            padding: 0;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: 0.25rem;
+            transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+            .custom-btn:focus, .custom-btn.focus {
+                box-shadow: none;
+            }
+            .btn{
+            padding:0px;
+        }
+        .btn:focus, .btn.focus{
+            box-shadow:none;
+        }
+        .box {
+            display: flex;
+            align-items:center;
+        }
+           .box .form-input{
+               position:static;
+           }
+           .box .form-labels{
+               width:100px;
+           }
+            .box .form-labels label {
+                font-weight:500;
+            }
+            .box #visual-assistance #image-area {
+                margin-left: 50px;
+                margin-top:10px;
+                //margin-bottom:10%;
+            }
+            .box #visual-assistance #error-area{
+                margin-left:20px;
+                visibility:hidden;
+            }
+            .box #visual-assistance #error-area i {
+                color: red;
+            }
+                
+            
+            .box .centered-image img {
+                width: 100px;
+                height: 100px;
+                //margin: 50%;
+            }
+    </style>
+</head>
+<body>
+    <!--NAMES CANT ACCEPT NUMBERS-->
+    <!--353535 bg color code-->
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-md-12">
+                <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+                    <ul class="nav nav-pills">
+                        <li class="nav-item" style="margin: auto 20px">
+                            <p class="navbar-brand">The Academy</p>
+                        </li>
+                        <li style="margin: auto 50px;"></li>
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="pill" href="#courses">Courses</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="pill" href="#students">Students</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="pill" href="#assignments">Assignments</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="pill" href="#trainers">Trainers</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="pill" href="#studentspercourse">Students Per Course</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="pill" href="#assignmentspercourse">Assignments Per Course</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="pill" href="#trainerspercourse">Trainers Per Course</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="pill" href="#assignmentsperstudentpercourse">Assignments Per Student Per Course</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="row" id="main-content">
+            <div class="col-3"></div>
+            <div class="col-md-12">
+                <div class="tab-content">
+                    <div class="tab-pane container active" id="courses">
+                        <div class="table-header">
+                            <h1>Courses</h1>
+                            <button type="button" class="btn" data-toggle="modal" data-target="#addCourse">
+                                <img class="rounded-circle" src="../images/add.png" />
+                            </button>
+
+                        </div>
+                        <table class="table table-dark table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>
+                                        Stream
+                                    </th>
+                                    <th>
+                                        Type
+                                    </th>
+                                    <th>
+                                        Start Date
+                                    </th>
+                                    <th>
+                                        End Date
+                                    </th>
+                                    <th>
+                                        Actions
+                                    </th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody id="courses-table-body">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane container fade" id="students">
+                        <div class="table-header">
+                            <h1>Students</h1>
+                            <button type="button" class="btn" data-toggle="modal" data-target="#addStudent">
+                                <img class="rounded-circle" src="../images/add.png" />
+                            </button>
+
+                        </div>
+                        <table class="table table-dark table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        First Name
+                                    </th>
+                                    <th>
+                                        Last Name
+                                    </th>
+                                    <th>
+                                        Birth Date
+                                    </th>
+                                    <th>
+                                        Tuition Fees
+                                    </th>
+                                    <th>
+                                        Actions
+                                    </th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td>
+                                        John
+                                    </td>
+                                    <td>
+                                        Gianakakis
+                                    </td>
+                                    <td>
+                                        2001-02-11
+                                    </td>
+                                    <td>
+                                        1562.6
+                                    </td>
+
+                                    <td>
+                                        <div class="edit">
+                                            <a href="#">
+                                                <img src="../images/edit.png" />
+                                            </a>
+
+                                        </div>
+                                        <div class="delete">
+                                            <a href="#">
+                                                <img src="../images/delete.png" />
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        2
+                                    </td>
+                                    <td>
+                                        Bert
+                                    </td>
+                                    <td>
+                                        Diggs
+                                    </td>
+                                    <td>
+                                        1998-05-23
+                                    </td>
+                                    <td>
+                                        1999.9
+                                    </td>
+                                    <td>
+                                        <div class="edit">
+                                            <a href="#">
+                                                <img src="../images/edit.png" />
+                                            </a>
+
+                                        </div>
+                                        <div class="delete">
+                                            <a href="#">
+                                                <img src="../images/delete.png" />
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        2
+                                    </td>
+                                    <td>
+                                        Bert
+                                    </td>
+                                    <td>
+                                        Diggs
+                                    </td>
+                                    <td>
+                                        1998-05-23
+                                    </td>
+                                    <td>
+                                        1999.9
+                                    </td>
+                                    <td>
+                                        <div class="edit">
+                                            <a href="#">
+                                                <img src="../images/edit.png" />
+                                            </a>
+
+                                        </div>
+                                        <div class="delete">
+                                            <a href="#">
+                                                <img src="../images/delete.png" />
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        2
+                                    </td>
+                                    <td>
+                                        Bert
+                                    </td>
+                                    <td>
+                                        Diggs
+                                    </td>
+                                    <td>
+                                        1998-05-23
+                                    </td>
+                                    <td>
+                                        1999.9
+                                    </td>
+                                    <td>
+                                        <div class="edit">
+                                            <a href="#">
+                                                <img src="../images/edit.png" />
+                                            </a>
+
+                                        </div>
+                                        <div class="delete">
+                                            <a href="#">
+                                                <img src="../images/delete.png" />
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        2
+                                    </td>
+                                    <td>
+                                        Bert
+                                    </td>
+                                    <td>
+                                        Diggs
+                                    </td>
+                                    <td>
+                                        1998-05-23
+                                    </td>
+                                    <td>
+                                        1999.9
+                                    </td>
+                                    <td>
+                                        <div class="edit">
+                                            <a href="#">
+                                                <img src="../images/edit.png" />
+                                            </a>
+
+                                        </div>
+                                        <div class="delete">
+                                            <a href="#">
+                                                <img src="../images/delete.png" />
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+
+
+                    </div>
+                    <div class="tab-pane container fade" id="assignments">
+                        <div class="table-header">
+                            <h1>Assignments</h1>
+                            <button type="button" class="btn" data-toggle="modal" data-target="#addAssignment">
+                                <img class="rounded-circle" src="../images/add.png" />
+                            </button>
+
+                        </div>
+                        <table class="table table-dark table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        ID
+                                    </th>
+                                    <th>
+                                        Title
+                                    </th>
+                                    <th>
+                                        Description
+                                    </th>
+                                    <th>
+                                        Oral Mark
+                                    </th>
+                                    <th>
+                                        Total Mark
+                                    </th>
+                                    <th>
+                                        Submission Date
+                                    </th>
+                                    <th>
+                                        Actions
+                                    </th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td>
+                                        Weather App
+                                    </td>
+                                    <td>
+                                        Create a weather map for a specific target group.
+                                    </td>
+                                    <td>
+                                        80.5
+                                    </td>
+                                    <td>
+                                        19.5
+                                    </td>
+                                    <td>
+                                        05/06/2020
+                                    </td>
+                                    <td>
+                                        <div class="edit">
+                                            <a href="#">
+                                                <img src="../images/edit.png" />
+                                            </a>
+
+                                        </div>
+                                        <div class="delete">
+                                            <a href="#">
+                                                <img src="../images/delete.png" />
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        2
+                                    </td>
+                                    <td>
+                                        Pac-Man
+                                    </td>
+                                    <td>
+                                        Recreate pacman with custom rules.
+                                    </td>
+
+                                    <td>
+                                        50.0
+                                    </td>
+                                    <td>
+                                        50.0
+                                    </td>
+                                    <td>
+                                        10/10/2020
+                                    </td>
+                                    <td>
+                                        <div class="edit">
+                                            <a href="#">
+                                                <img src="../images/edit.png" />
+                                            </a>
+
+                                        </div>
+                                        <div class="delete">
+                                            <a href="#">
+                                                <img src="../images/delete.png" />
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        3
+                                    </td>
+                                    <td>
+                                        Online Catalogue
+                                    </td>
+                                    <td>
+                                        Create an online catalogue for amazon using html and css.
+                                    </td>
+                                    <td>
+                                        30.0
+                                    </td>
+                                    <td>
+                                        70.0
+                                    </td>
+                                    <td>
+                                        07/04/2020
+                                    </td>
+                                    <td>
+                                        <div class="edit">
+                                            <a href="#">
+                                                <img src="../images/edit.png" />
+                                            </a>
+
+                                        </div>
+                                        <div class="delete">
+                                            <a href="#">
+                                                <img src="../images/delete.png" />
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        4
+                                    </td>
+                                    <td>
+                                        Dungeons and Dragons
+                                    </td>
+                                    <td>
+                                        Create a plot for a dnd game.
+                                    </td>
+                                    <td>
+                                        25.5
+                                    </td>
+                                    <td>
+                                        75.5
+                                    </td>
+                                    <td>
+                                        08/03/2020
+                                    </td>
+                                    <td>
+                                        <div class="edit">
+                                            <a href="#">
+                                                <img src="../images/edit.png" />
+                                            </a>
+
+                                        </div>
+                                        <div class="delete">
+                                            <a href="#">
+                                                <img src="../images/delete.png" />
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="tab-pane container fade" id="trainers">
+                        <div class="table-header">
+                            <h1>Trainers</h1>
+                            <button type="button" class="btn" data-toggle="modal" data-target="#addTrainer">
+                                <img class="rounded-circle" src="../images/add.png" />
+                            </button>
+
+                        </div>
+                        <table class="table table-dark table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        ID
+                                    </th>
+                                    <th>
+                                        First Name
+                                    </th>
+                                    <th>
+                                        Last Name
+                                    </th>
+                                    <th>
+                                        Subject
+                                    </th>
+
+                                    <th>
+                                        Actions
+                                    </th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td>
+                                        Nikos
+                                    </td>
+                                    <td>
+                                        Nikolopoulos
+                                    </td>
+                                    <td>
+                                        Programming
+                                    </td>
+
+                                    <td>
+                                        <div class="edit">
+                                            <a href="#">
+                                                <img src="../images/edit.png" />
+                                            </a>
+
+                                        </div>
+                                        <div class="delete">
+                                            <a href="#">
+                                                <img src="../images/delete.png" />
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        2
+                                    </td>
+                                    <td>
+                                        Giwrgos
+                                    </td>
+                                    <td>
+                                        Gewrgiou
+                                    </td>
+                                    <td>
+                                        Math
+                                    </td>
+
+                                    <td>
+                                        <div class="edit">
+                                            <a href="#">
+                                                <img src="../images/edit.png" />
+                                            </a>
+
+                                        </div>
+                                        <div class="delete">
+                                            <a href="#">
+                                                <img src="../images/delete.png" />
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        3
+                                    </td>
+                                    <td>
+                                        Giannis
+                                    </td>
+                                    <td>
+                                        Giannakopoulos
+                                    </td>
+                                    <td>
+                                        Web-Programming
+                                    </td>
+
+                                    <td>
+                                        <div class="edit">
+                                            <a href="#">
+                                                <img src="../images/edit.png" />
+                                            </a>
+
+                                        </div>
+                                        <div class="delete">
+                                            <a href="#">
+                                                <img src="../images/delete.png" />
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        4
+                                    </td>
+                                    <td>
+                                        Petros
+                                    </td>
+                                    <td>
+                                        Antwnakou
+                                    </td>
+                                    <td>
+                                        History
+                                    </td>
+
+                                    <td>
+                                        <div class="edit">
+                                            <a href="#">
+                                                <img src="../images/edit.png" />
+                                            </a>
+
+                                        </div>
+                                        <div class="delete">
+                                            <a href="#">
+                                                <img src="../images/delete.png" />
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <div class="tab-pane container fade" id="studentspercourse">
+                        <div class="table-header">
+                            <h1>Students</h1>
+
+
+                        </div>
+                        <table class="table table-dark table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        ID
+                                    </th>
+                                    <th>
+                                        Title
+                                    </th>
+                                    <th>
+                                        Stream
+                                    </th>
+                                    <th>
+                                        Type
+                                    </th>
+                                    <th>
+                                        Start Date
+                                    </th>
+                                    <th>
+                                        End Date
+                                    </th>
+                                    <th>
+                                        Students
+                                    </th>
+                                    <th>
+                                        Actions
+                                    </th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td>
+                                        Java
+                                    </td>
+                                    <td>
+                                        J1
+                                    </td>
+                                    <td>
+                                        Programming
+                                    </td>
+                                    <td>
+                                        05/03/2020
+                                    </td>
+                                    <td>
+                                        05/06/2020
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            <li>Student1</li>
+                                            <li>Student2</li>
+                                            <li>Student3</li>
+                                            <li>Student4</li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <div class="box">
+                                            <div class="del-action">
+                                                <ul>
+                                                    <li>
+
+                                                        <div class="delete">
+                                                            <a href="#">
+                                                                <img src="../images/delete.png" />
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+
+                                                        <div class="delete">
+                                                            <a href="#">
+                                                                <img src="../images/delete.png" />
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+
+                                                        <div class="delete">
+                                                            <a href="#">
+                                                                <img src="../images/delete.png" />
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+
+                                                        <div class="delete">
+                                                            <a href="#">
+                                                                <img src="../images/delete.png" />
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="add-action">
+                                                <button type="button" class="btn" data-toggle="modal" data-target="#addStudent">
+                                                    <img class="rounded-circle" src="../images/add.png" />
+                                                </button>
+
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td>
+                                        Java
+                                    </td>
+                                    <td>
+                                        J1
+                                    </td>
+                                    <td>
+                                        Programming
+                                    </td>
+                                    <td>
+                                        05/03/2020
+                                    </td>
+                                    <td>
+                                        05/06/2020
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            <li>Student1</li>
+                                            <li>Student2</li>
+                                            <li>Student3</li>
+                                            <li>Student4</li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <div class="box">
+                                            <div class="del-action">
+                                                <ul>
+                                                    <li>
+
+                                                        <div class="delete">
+                                                            <a href="#">
+                                                                <img src="../images/delete.png" />
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+
+                                                        <div class="delete">
+                                                            <a href="#">
+                                                                <img src="../images/delete.png" />
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+
+                                                        <div class="delete">
+                                                            <a href="#">
+                                                                <img src="../images/delete.png" />
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+
+                                                        <div class="delete">
+                                                            <a href="#">
+                                                                <img src="../images/delete.png" />
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="add-action">
+                                                <button type="button" class="btn" data-toggle="modal" data-target="#addStudent">
+                                                    <img class="rounded-circle" src="../images/add.png" />
+                                                </button>
+
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td>
+                                        Java
+                                    </td>
+                                    <td>
+                                        J1
+                                    </td>
+                                    <td>
+                                        Programming
+                                    </td>
+                                    <td>
+                                        05/03/2020
+                                    </td>
+                                    <td>
+                                        05/06/2020
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            <li>Student1</li>
+                                            <li>Student2</li>
+                                            <li>Student3</li>
+                                            <li>Student4</li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <div class="box">
+                                            <div class="del-action">
+                                                <ul>
+                                                    <li>
+
+                                                        <div class="delete">
+                                                            <a href="#">
+                                                                <img src="../images/delete.png" />
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+
+                                                        <div class="delete">
+                                                            <a href="#">
+                                                                <img src="../images/delete.png" />
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+
+                                                        <div class="delete">
+                                                            <a href="#">
+                                                                <img src="../images/delete.png" />
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+
+                                                        <div class="delete">
+                                                            <a href="#">
+                                                                <img src="../images/delete.png" />
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="add-action">
+                                                <button type="button" class="btn" data-toggle="modal" data-target="#addStudent">
+                                                    <img class="rounded-circle" src="../images/add.png" />
+                                                </button>
+
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td>
+                                        Java
+                                    </td>
+                                    <td>
+                                        J1
+                                    </td>
+                                    <td>
+                                        Programming
+                                    </td>
+                                    <td>
+                                        05/03/2020
+                                    </td>
+                                    <td>
+                                        05/06/2020
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            <li>Student1</li>
+                                            <li>Student2</li>
+                                            <li>Student3</li>
+                                            <li>Student4</li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <div class="box">
+                                            <div class="del-action">
+                                                <ul>
+                                                    <li>
+
+                                                        <div class="delete">
+                                                            <a href="#">
+                                                                <img src="../images/delete.png" />
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+
+                                                        <div class="delete">
+                                                            <a href="#">
+                                                                <img src="../images/delete.png" />
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+
+                                                        <div class="delete">
+                                                            <a href="#">
+                                                                <img src="../images/delete.png" />
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+
+                                                        <div class="delete">
+                                                            <a href="#">
+                                                                <img src="../images/delete.png" />
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="add-action">
+                                                <button type="button" class="btn" data-toggle="modal" data-target="#addStudent">
+                                                    <img class="rounded-circle" src="../images/add.png" />
+                                                </button>
+
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td>
+                                        Java
+                                    </td>
+                                    <td>
+                                        J1
+                                    </td>
+                                    <td>
+                                        Programming
+                                    </td>
+                                    <td>
+                                        05/03/2020
+                                    </td>
+                                    <td>
+                                        05/06/2020
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            <li>Student1</li>
+                                            <li>Student2</li>
+                                            <li>Student3</li>
+                                            <li>Student4</li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <div class="box">
+                                            <div class="del-action">
+                                                <ul>
+                                                    <li>
+
+                                                        <div class="delete">
+                                                            <a href="#">
+                                                                <img src="../images/delete.png" />
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+
+                                                        <div class="delete">
+                                                            <a href="#">
+                                                                <img src="../images/delete.png" />
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+
+                                                        <div class="delete">
+                                                            <a href="#">
+                                                                <img src="../images/delete.png" />
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+
+                                                        <div class="delete">
+                                                            <a href="#">
+                                                                <img src="../images/delete.png" />
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="add-action">
+                                                <button type="button" class="btn" data-toggle="modal" data-target="#addStudent">
+                                                    <img class="rounded-circle" src="../images/add.png" />
+                                                </button>
+
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane container fade" id="assignmentspercourse">
+                        <div class="table-header">
+                            <h1>Students</h1>
+                            <button type="button" class="btn" data-toggle="modal" data-target="#addStudent">
+                                <img class="rounded-circle" src="../images/add.png" />
+                            </button>
+
+                        </div>
+                        <table class="table table-dark table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        ID
+                                    </th>
+                                    <th>
+                                        First Name
+                                    </th>
+                                    <th>
+                                        Last Name
+                                    </th>
+                                    <th>
+                                        Birth Date
+                                    </th>
+                                    <th>
+                                        Tuition Fees
+                                    </th>
+                                    <th>
+                                        Actions
+                                    </th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td>
+                                        John
+                                    </td>
+                                    <td>
+                                        Gianakakis
+                                    </td>
+                                    <td>
+                                        2001-02-11
+                                    </td>
+                                    <td>
+                                        1562.6
+                                    </td>
+
+                                    <td>
+                                        <div class="edit">
+                                            <a href="#">
+                                                <img src="../images/edit.png" />
+                                            </a>
+
+                                        </div>
+                                        <div class="delete">
+                                            <a href="#">
+                                                <img src="../images/delete.png" />
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        2
+                                    </td>
+                                    <td>
+                                        Bert
+                                    </td>
+                                    <td>
+                                        Diggs
+                                    </td>
+                                    <td>
+                                        1998-05-23
+                                    </td>
+                                    <td>
+                                        1999.9
+                                    </td>
+                                    <td>
+                                        <div class="edit">
+                                            <a href="#">
+                                                <img src="../images/edit.png" />
+                                            </a>
+
+                                        </div>
+                                        <div class="delete">
+                                            <a href="#">
+                                                <img src="../images/delete.png" />
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        2
+                                    </td>
+                                    <td>
+                                        Bert
+                                    </td>
+                                    <td>
+                                        Diggs
+                                    </td>
+                                    <td>
+                                        1998-05-23
+                                    </td>
+                                    <td>
+                                        1999.9
+                                    </td>
+                                    <td>
+                                        <div class="edit">
+                                            <a href="#">
+                                                <img src="../images/edit.png" />
+                                            </a>
+
+                                        </div>
+                                        <div class="delete">
+                                            <a href="#">
+                                                <img src="../images/delete.png" />
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        2
+                                    </td>
+                                    <td>
+                                        Bert
+                                    </td>
+                                    <td>
+                                        Diggs
+                                    </td>
+                                    <td>
+                                        1998-05-23
+                                    </td>
+                                    <td>
+                                        1999.9
+                                    </td>
+                                    <td>
+                                        <div class="edit">
+                                            <a href="#">
+                                                <img src="../images/edit.png" />
+                                            </a>
+
+                                        </div>
+                                        <div class="delete">
+                                            <a href="#">
+                                                <img src="../images/delete.png" />
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        2
+                                    </td>
+                                    <td>
+                                        Bert
+                                    </td>
+                                    <td>
+                                        Diggs
+                                    </td>
+                                    <td>
+                                        1998-05-23
+                                    </td>
+                                    <td>
+                                        1999.9
+                                    </td>
+                                    <td>
+                                        <div class="edit">
+                                            <a href="#">
+                                                <img src="../images/edit.png" />
+                                            </a>
+
+                                        </div>
+                                        <div class="delete">
+                                            <a href="#">
+                                                <img src="../images/delete.png" />
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane container fade" id="trainerspercourse">
+                        <div class="table-header">
+                            <h1>Students</h1>
+                            <button type="button" class="btn" data-toggle="modal" data-target="#addStudent">
+                                <img class="rounded-circle" src="../images/add.png" />
+                            </button>
+
+                        </div>
+                        <table class="table table-dark table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        ID
+                                    </th>
+                                    <th>
+                                        First Name
+                                    </th>
+                                    <th>
+                                        Last Name
+                                    </th>
+                                    <th>
+                                        Birth Date
+                                    </th>
+                                    <th>
+                                        Tuition Fees
+                                    </th>
+                                    <th>
+                                        Actions
+                                    </th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td>
+                                        John
+                                    </td>
+                                    <td>
+                                        Gianakakis
+                                    </td>
+                                    <td>
+                                        2001-02-11
+                                    </td>
+                                    <td>
+                                        1562.6
+                                    </td>
+
+                                    <td>
+                                        <div class="edit">
+                                            <a href="#">
+                                                <img src="../images/edit.png" />
+                                            </a>
+
+                                        </div>
+                                        <div class="delete">
+                                            <a href="#">
+                                                <img src="../images/delete.png" />
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        2
+                                    </td>
+                                    <td>
+                                        Bert
+                                    </td>
+                                    <td>
+                                        Diggs
+                                    </td>
+                                    <td>
+                                        1998-05-23
+                                    </td>
+                                    <td>
+                                        1999.9
+                                    </td>
+                                    <td>
+                                        <div class="edit">
+                                            <a href="#">
+                                                <img src="../images/edit.png" />
+                                            </a>
+
+                                        </div>
+                                        <div class="delete">
+                                            <a href="#">
+                                                <img src="../images/delete.png" />
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        2
+                                    </td>
+                                    <td>
+                                        Bert
+                                    </td>
+                                    <td>
+                                        Diggs
+                                    </td>
+                                    <td>
+                                        1998-05-23
+                                    </td>
+                                    <td>
+                                        1999.9
+                                    </td>
+                                    <td>
+                                        <div class="edit">
+                                            <a href="#">
+                                                <img src="../images/edit.png" />
+                                            </a>
+
+                                        </div>
+                                        <div class="delete">
+                                            <a href="#">
+                                                <img src="../images/delete.png" />
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        2
+                                    </td>
+                                    <td>
+                                        Bert
+                                    </td>
+                                    <td>
+                                        Diggs
+                                    </td>
+                                    <td>
+                                        1998-05-23
+                                    </td>
+                                    <td>
+                                        1999.9
+                                    </td>
+                                    <td>
+                                        <div class="edit">
+                                            <a href="#">
+                                                <img src="../images/edit.png" />
+                                            </a>
+
+                                        </div>
+                                        <div class="delete">
+                                            <a href="#">
+                                                <img src="../images/delete.png" />
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        2
+                                    </td>
+                                    <td>
+                                        Bert
+                                    </td>
+                                    <td>
+                                        Diggs
+                                    </td>
+                                    <td>
+                                        1998-05-23
+                                    </td>
+                                    <td>
+                                        1999.9
+                                    </td>
+                                    <td>
+                                        <div class="edit">
+                                            <a href="#">
+                                                <img src="../images/edit.png" />
+                                            </a>
+
+                                        </div>
+                                        <div class="delete">
+                                            <a href="#">
+                                                <img src="../images/delete.png" />
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane container fade" id="assignmentsperstudentpercourse">
+                        <div class="table-header">
+                            <h1>Students</h1>
+                            <button type="button" class="btn" data-toggle="modal" data-target="#addStudent">
+                                <img class="rounded-circle" src="../images/add.png" />
+                            </button>
+
+                        </div>
+                        <table class="table table-dark table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        ID
+                                    </th>
+                                    <th>
+                                        First Name
+                                    </th>
+                                    <th>
+                                        Last Name
+                                    </th>
+                                    <th>
+                                        Birth Date
+                                    </th>
+                                    <th>
+                                        Tuition Fees
+                                    </th>
+                                    <th>
+                                        Actions
+                                    </th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td>
+                                        John
+                                    </td>
+                                    <td>
+                                        Gianakakis
+                                    </td>
+                                    <td>
+                                        2001-02-11
+                                    </td>
+                                    <td>
+                                        1562.6
+                                    </td>
+
+                                    <td>
+                                        <div class="edit">
+                                            <a href="#">
+                                                <img src="../images/edit.png" />
+                                            </a>
+
+                                        </div>
+                                        <div class="delete">
+                                            <a href="#">
+                                                <img src="../images/delete.png" />
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        2
+                                    </td>
+                                    <td>
+                                        Bert
+                                    </td>
+                                    <td>
+                                        Diggs
+                                    </td>
+                                    <td>
+                                        1998-05-23
+                                    </td>
+                                    <td>
+                                        1999.9
+                                    </td>
+                                    <td>
+                                        <div class="edit">
+                                            <a href="#">
+                                                <img src="../images/edit.png" />
+                                            </a>
+
+                                        </div>
+                                        <div class="delete">
+                                            <a href="#">
+                                                <img src="../images/delete.png" />
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        2
+                                    </td>
+                                    <td>
+                                        Bert
+                                    </td>
+                                    <td>
+                                        Diggs
+                                    </td>
+                                    <td>
+                                        1998-05-23
+                                    </td>
+                                    <td>
+                                        1999.9
+                                    </td>
+                                    <td>
+                                        <div class="edit">
+                                            <a href="#">
+                                                <img src="../images/edit.png" />
+                                            </a>
+
+                                        </div>
+                                        <div class="delete">
+                                            <a href="#">
+                                                <img src="../images/delete.png" />
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        2
+                                    </td>
+                                    <td>
+                                        Bert
+                                    </td>
+                                    <td>
+                                        Diggs
+                                    </td>
+                                    <td>
+                                        1998-05-23
+                                    </td>
+                                    <td>
+                                        1999.9
+                                    </td>
+                                    <td>
+                                        <div class="edit">
+                                            <a href="#">
+                                                <img src="../images/edit.png" />
+                                            </a>
+
+                                        </div>
+                                        <div class="delete">
+                                            <a href="#">
+                                                <img src="../images/delete.png" />
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        2
+                                    </td>
+                                    <td>
+                                        Bert
+                                    </td>
+                                    <td>
+                                        Diggs
+                                    </td>
+                                    <td>
+                                        1998-05-23
+                                    </td>
+                                    <td>
+                                        1999.9
+                                    </td>
+                                    <td>
+                                        <div class="edit">
+                                            <a href="#">
+                                                <img src="../images/edit.png" />
+                                            </a>
+
+                                        </div>
+                                        <div class="delete">
+                                            <a href="#">
+                                                <img src="../images/delete.png" />
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="modal" id="addStudent">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Create a New Student</h4>
+
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body">
+
+
+                                    <div class="box">
+                                        <div class="form-input">
+                                            <form>
+
+                                                <div class="fname">
+                                                    <label>First Name:</label>
+                                                    <input type="text" name="first_name" value="" minlength="1" maxlength="20" placeholder="Enter letters" required />
+                                                </div>
+                                                <div class="lname">
+                                                    <label>Last Name:</label>
+                                                    <input type="text" name="last_name" value="" minlength="1" maxlength="20" placeholder="Enter letters" required />
+                                                </div>
+                                                <div class="bdate">
+                                                    <label>Birth Date:</label>
+                                                    <input type="date" name="birth_date" value="" placeholder="Select a date" max="2002-01-01" required />
+                                                </div>
+                                                <div class="tfees">
+                                                    <label>Tuition Fees:</label>
+                                                    <input type="number" name="first_name" value="" placeholder="Enter numbers" min="500" required />
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <input type="submit" value="Create Course" />
+                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                                </div>
+
+
+
+                                            </form>
+                                        </div>
+                                        <div class="centered-image">
+                                            <img src="../images/student2.png" />
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <!-- Modal footer -->
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal" id="addCourse">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form>
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Create a New Course</h4>
+
+                                        <button id="course-cancel" type="button" class="close" data-dismiss="modal">&times;</button>
+
+                                    </div>
+
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+
+
+                                        <div class="box">
+                                            <div class="form-labels">
+                                                <div>
+                                                    <label>Title:</label>
+                                                </div>
+                                                <div>
+                                                    <label>Stream:</label>
+                                                </div>
+                                                <div><label>Type:</label></div>
+                                                <div><label>Start Date:</label></div>
+                                                <div><label>End Date:</label></div>
+                                            </div>
+                                            <div class="form-input">
+                                                <div>
+                                                    <input id="course-title" type="text" name="title" value="" minlength="1" maxlength="20" placeholder="Enter letters" required />
+                                                </div>
+                                                <div>
+
+                                                    <input id="course-stream" type="text" name="stream" value="" minlength="1" maxlength="20" placeholder="Enter letters" required />
+                                                </div>
+                                                <div>
+
+                                                    <input id="course-type" type="text" name="type" value="" minlength="1" maxlength="20" placeholder="Enter letters" required />
+                                                </div>
+                                                <div>
+
+                                                    <input id="course-start-date" type="date" name="start-date" value="" placeholder="Select a date" min="2002-01-01" required />
+                                                </div>
+                                                <div>
+
+                                                    <input id="course-end-date" type="date" name="end-date" value="" placeholder="Select a date" min="2002-01-01" required />
+                                                </div>
+                                            </div>
+                                            <div id="visual-assistance">
+                                                <div id="error-area"><i>Error: This record exists,try again.</i></div>
+                                                <div id="image-area">
+
+                                                    <div class="centered-image">
+
+                                                        <img src="../images/course.png" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+
+                                        <input id="course-submit" type="submit" value="Create" />
+                                        <button id="course-cancel2" type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal" id="addStudent">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form>
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Create a New Student</h4>
+
+                                        <button id="course-cancel" type="button" class="close" data-dismiss="modal">&times;</button>
+
+                                    </div>
+
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+
+
+                                        <div class="box">
+                                            <div class="form-labels">
+                                                <div>
+                                                    <label>First Name:</label>
+                                                </div>
+                                                <div>
+                                                    <label>Last Name:</label>
+                                                </div>
+                                                <div><label>Birth Date:</label></div>
+                                                <div><label>Tuition Fees:</label></div>
+                                            </div>
+                                            <div class="form-input">
+                                                <div>
+                                                    <input id="student-fname" type="text" minlength="1" maxlength="20" placeholder="Enter letters" required />
+                                                </div>
+                                                <div>
+
+                                                    <input id="student-lname" type="text" minlength="1" maxlength="20" placeholder="Enter letters" required />
+                                                </div>
+                                                <div>
+                                                    <input id="student-birth-date" type="date" name="start-date" value="" placeholder="Select a date" max="2002-01-01" required />
+
+                                                </div>
+                                                <div>
+                                                    <input id="student-tfees" type="number" min="1" max="5000" placeholder="Numbers only" required />
+
+                                                </div>
+                                          
+                                            </div>
+                                            <div id="visual-assistance">
+                                                <div id="error-area"><i>Error: This record exists,try again.</i></div>
+                                                <div id="image-area">
+
+                                                    <div class="centered-image">
+
+                                                        <img src="../images/course.png" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+
+                                        <input id="course-submit" type="submit" value="Create" />
+                                        <button id="course-cancel2" type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal" id="addAssignment">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Create Assignment</h4>
+
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body">
+
+
+                                    <div class="box">
+                                        <div class="form-input">
+                                            <form>
+
+                                                <div class="fname">
+                                                    <label>First Name:</label>
+                                                    <input type="text" name="first_name" value="" minlength="1" maxlength="20" placeholder="Enter letters" required />
+                                                </div>
+                                                <div class="lname">
+                                                    <label>Last Name:</label>
+                                                    <input type="text" name="last_name" value="" minlength="1" maxlength="20" placeholder="Enter letters" required />
+                                                </div>
+                                                <div class="subject">
+                                                    <label>Subject:</label>
+                                                    <input type="text" name="subject" value="" minlength="1" maxlength="20" placeholder="Enter letters" required />
+                                                </div>
+
+
+                                                <div class="modal-footer">
+                                                    <input type="submit" value="Create" />
+                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                                </div>
+
+
+
+                                            </form>
+                                        </div>
+                                        <div class="centered-image">
+                                            <img src="../images/assignments.png" />
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <!-- Modal footer -->
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal" id="addTrainer">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Create a New Trainer</h4>
+
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body">
+
+
+                                    <div class="box">
+                                        <div class="form-input">
+                                            <form>
+
+                                                <div class="fname">
+                                                    <label>First Name:</label>
+                                                    <input type="text" name="first_name" value="" minlength="1" maxlength="20" placeholder="Enter letters" required />
+                                                </div>
+                                                <div class="lname">
+                                                    <label>Last Name:</label>
+                                                    <input type="text" name="last_name" value="" minlength="1" maxlength="20" placeholder="Enter letters" required />
+                                                </div>
+                                                <div class="subject">
+                                                    <label>Subject:</label>
+                                                    <input type="text" name="subject" value="" minlength="1" maxlength="20" placeholder="Enter letters" required />
+                                                </div>
+
+
+                                                <div class="modal-footer">
+                                                    <input type="submit" value="Create" />
+                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                                </div>
+
+
+
+                                            </form>
+                                        </div>
+                                        <div class="centered-image">
+                                            <img src="../images/teacher.png" />
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <!-- Modal footer -->
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <h2>
+                    Heading
+                </h2>
+                <p>
+                    Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+                </p>
+                <p>
+                    <a class="btn" href="#">View details »</a>
+                </p>
+            </div>
+            <div class="col-md-4">
+                <h2>
+                    Heading
+                </h2>
+                <p>
+                    Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+                </p>
+                <p>
+                    <a class="btn" href="#">View details »</a>
+                </p>
+            </div>
+            <div class="col-md-4">
+                <h2>
+                    Heading
+                </h2>
+                <p>
+                    Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+                </p>
+                <p>
+                    <a class="btn" href="#">View details »</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var entered_edit_mode = false;
+        var courses = initCourses();
+        initCoursesOnDom(courses);
+        var edit_object;
+        $(document).ready(function () {
+
+
+            
+
+
+
+            $(".edit").click(function (e) {
+
+                ToggleEditCourse();
+                let inputs = $(this).parent().siblings();
+                edit_object = [$(inputs[0]).text(), $(inputs[1]).text(), $(inputs[2]).text(), $(inputs[3]).text(), $(inputs[4]).text()];
+                $("#course-title").val($(inputs[0]).text());
+                $("#course-stream").val($(inputs[1]).text());
+                $("#course-type").val($(inputs[2]).text());
+                $("#course-start-date").val($(inputs[3]).text());
+                $("#course-end-date").val($(inputs[4]).text());
+                
+
+            })
+
+            $("#course-submit").click(function (e) {
+                e.preventDefault();
+                let oldcourse = edit_object;
+                let newcourse = [$("#course-title").val(), $("#course-stream").val(), $("#course-type").val(), $("#course-start-date").val(), $("#course-end-date").val()];
+
+                if (Contains(courses, newcourse)) {
+                    $("#error-area").css("visibility", "visible");
+                    console.log("Wwe in here dawf");
+                }
+                else {
+                    if (entered_edit_mode) {
+                        console.log("we in here...");
+                        EditCourse(oldcourse, newcourse);
+                        ToggleEditCourse();
+                    }
+                    else {
+                        AddCourse(newcourse);
+                    }
+                    $("#error-area").css("visibility", "hidden");
+                    $('#addCourse').modal('toggle');
+                    
+                }
+
+
+            });
+            $("#course-cancel").click(function () {
+                if (entered_edit_mode)
+                    ToggleEditCourse();
+                $("#error-area").css("visibility", "hidden");
+            });
+            $("#course-cancel2").click(function () {
+                if (entered_edit_mode)
+                    ToggleEditCourse();
+                $("#error-area").css("visibility", "hidden");
+            });
+            $(".custom-btn").click(function () {
+                console.log("in courses delete handler");
+                $(this).parent().parent().parent().remove();
+            });
+
+
+
+            
+        });
+        function ToggleEditCourse() {
+            if (entered_edit_mode) {
+                entered_edit_mode = false;
+                $("#course-submit").val("Create");
+                $(".modal-title").text("Create a New Course");
+            }
+            else {
+                entered_edit_mode = true;
+                edit_object = null;
+                $("#course-submit").val("Edit");
+                $(".modal-title").text("Edit Course");
+            }
+        }
+        function EditCourse(oldcourse, newcourse) {
+            for (var course of courses)
+                if (Equals(course, oldcourse)) {
+                    course = newcourse;
+                }
+            EditCourseOnDom(oldcourse, newcourse);
+        }
+        function EditCourseOnDom(oldcourse, newcourse) {
+            let rows = $("#courses-table-body").children();
+            //console.log(rows);
+            FindAndReplaceOnDom(rows, oldcourse, newcourse);
+        }
+        function FindAndReplaceOnDom(rows, oldrow,newrow) {
+            for (var row of rows) {
+                dts = $(row).children();
+                let oldrowFound = true;
+                for (var i = 0; i < oldrow.length; i++) {
+                    if ($(dts[i]).text() != oldrow[i]) {
+                        oldrowFound = false;
+                    }
+
+                }
+                if (oldrowFound) {
+                    for (var i = 0; i < oldrow.length; i++)
+                        $(dts[i]).text(newrow[i]);
+                }
+            }
+        }
+        function AddCourse(course) {
+            courses.push(course);
+            AddCourseToDom(course);
+        }
+        function AddCourseToDom(course) {
+            let row = `<tr><td>${course[0]}</td><td>${course[1]}</td><td>${course[2]}</td><td>${course[3]}</td><td>${course[4]}</td><td>` +
+                '<div class="edit"><button type="button" class="btn"'
+                + 'data-toggle="modal" data-target="#addCourse" > <img src="../images/edit.png" /> </button > '
+                + '</div><div class="delete"><button type="button" class="custom-btn"> <img src="../images/delete.png" /></button ></div></td></tr>';
+            $("#courses-table-body").append(row);
+        }
+        function initCourses() {
+            let cour1 = ["Java", "J1", "Programming", "2020-03-05", "2020-06-05"];
+            let cour2 = ["Java", "J2", "Programming", "2020-02-01", "2020-04-03"];
+            let cour3 = ["C#", "C1", "Programming", "2020-04-02", "2020-05-02"];
+            let cour4 = ["Python", "P1", "Programming", "2020-01-07", "2020-05-07"];
+            let cour5 = ["WW2-Tech", "H1", "History", "2020-02-02", "2020-03-02"];
+            let cour6 = ["Python", "P2", "Programming", "2020-03-05", "2020-06-06"];
+            return new Array(cour1, cour2, cour3, cour4, cour5, cour6);
+
+        }
+        function initCoursesOnDom(courses){
+            for (course of courses)
+                AddCourseToDom(course);
+        }
+
+        function Contains(arr, subarr) { // checks if Array ar contains obj
+            for (var iterObj of arr)
+                if (Equals(iterObj, subarr))
+                    return true;
+            return false;
+        }
+        function Equals(arr1, arr2) {
+            if (arr1.length != arr2.length)
+                return false;
+            for (var i = 0; i < arr1.length; i++) {
+                if (arr1[i] != arr2[i])
+                    return false;
+            }
+            return true;
+        }
+        
+    </script>
+</body>
+</html>

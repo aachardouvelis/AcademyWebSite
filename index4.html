@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+
+        .red{
+            position:absolute;
+            height:50px;
+            width:50px;
+            background-color:red;
+        }
+
+    </style>
+</head>
+<body id="soma">
+    <button>Click</button>
+    <p>sthing</p>
+    <p>sthing2</p>
+    <p>sthing3</p>
+    <script>
+        $("button").click(function () {
+            $('#soma').append('<p>nice fking mum m8</p>');
+        });
+        $(document).ready(function () {
+            checksthing();
+        });
+        function checksthing() {
+            console.log($("#soma").children());
+            $("#soma").children();
+        }
+
+
+        //$("button").click(function() {
+        //    let row = `<tr><td>AAAAAAAA</td><td>AAAAAAAA</td><td>AAAAAA</td><td>AAAAAAAAA</td><td>AAAAAAAA</td><td>` +
+        //        '<div class="edit"><button type="button" class="btn"'
+        //        + 'data-toggle="modal" data-target="#addCourse" > <img src="../images/edit.png" /> </button > '
+        //        + '</div><div class="delete"><button type="button" class="btn" data-toggle="modal"'
+        //        + 'data-target="#deleteCourse" > <img src="../images/delete.png" /></button ></div></td></tr>';
+        //    $("#soma").append(row);
+        //}
+        //)
+        
+
+        
+    </script>
+</body>
+</html>
